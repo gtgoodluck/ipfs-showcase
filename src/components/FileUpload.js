@@ -12,6 +12,7 @@ const FileUpload = ({ onUploadSuccess }) => {
     description: '',
     storyContext: '',
     contentType: 'artwork',
+    writingType: 'general',
     sloganData: {
       slogan: '',
       firstUsed: '',
@@ -55,6 +56,7 @@ const FileUpload = ({ onUploadSuccess }) => {
           description: '', 
           storyContext: '',
           contentType: 'artwork',
+          writingType: 'general',
           sloganData: {
             slogan: '',
             firstUsed: '',
@@ -118,6 +120,25 @@ const FileUpload = ({ onUploadSuccess }) => {
           
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="space-y-8">
+              {/* Writing Subtype - appears when Writing & Lyrics is selected */}
+              {metadata.contentType === 'writing' && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Writing Type
+                  </label>
+                  <select
+                    value={metadata.writingType}
+                    onChange={(e) => setMetadata({ ...metadata, writingType: e.target.value })}
+                    className="w-full px-5 py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-lg"
+                  >
+                    <option value="general">General Writing</option>
+                    <option value="lyrics">Song Lyrics</option>
+                    <option value="slogan">Slogan/Tagline</option>
+                    <option value="script">Script/Caption</option>
+                  </select>
+                </div>
+              )}
+              
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Title
@@ -142,9 +163,9 @@ const FileUpload = ({ onUploadSuccess }) => {
                   className="w-full px-5 py-4 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-lg"
                 >
                   <option value="artwork">Artwork</option>
+                  <option value="music">Music/Audio</option>
+                  <option value="writing">Writing & Lyrics</option>
                   <option value="video">Video Content</option>
-                  <option value="slogan">Slogan/Tagline</option>
-                  <option value="script">Script/Text</option>
                   <option value="design">Design File</option>
                 </select>
               </div>
@@ -164,8 +185,8 @@ const FileUpload = ({ onUploadSuccess }) => {
             </div>
             
             <div className="space-y-6">
-              {/* Conditional Slogan Fields */}
-              {metadata.contentType === 'slogan' && (
+              {/* Conditional Slogan Fields - only for Writing & Lyrics + Slogan subtype */}
+              {metadata.contentType === 'writing' && metadata.writingType === 'slogan' && (
                 <div className="bg-blue-50 rounded-xl p-6 space-y-4">
                   <h4 className="font-semibold text-blue-800 text-lg">Slogan Details</h4>
                   <div className="space-y-4">
